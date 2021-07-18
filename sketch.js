@@ -1,75 +1,78 @@
- const Engine = Matter.Engine;
- const World = Matter.World;
- const Events = Matter.Events;
- const Bodies = Matter.Bodies;
+const Engine = Matter.Engine;
+const World= Matter.World;
+const Bodies = Matter.Bodies;
+const Constraint = Matter.Constraint;
 
 var engine,world;
-var particles = [];
-var plinkos = [];
-var divisionHeight=300;
-var division = [];
-var score =0;
+var ground = [];
+var plinko = [];
+var particle = []; 
+var divisions = [];
 
 function setup() {
-  createCanvas(800, 800);
-  engine = Engine.create();
-  world = engine.world;
+  createCanvas(600,800);
+ // createSprite(400, 200, 50, 50);
 
-  ground = new Ground(width/2,height,width,20);
+    engine = Engine.create();
+    world = engine.world;
 
+  ground = new Ground(350,750,800,15);
 
-   for (var k = 0; k <=width; k = k + 80) {
-     divisions.push(new Divisions(k, height-divisionHeight/2, 10, divisionHeight));
-   }
+  //division and plinkos
 
+  for(var k = 0; k <=width; k = k+100){
+    division.push(new Wall(k,600,15,300));
+  }
+  for(var a = 0; a <= width; a = a+100){
+    plinko.push(new Plinko(a,100,15,15));
+  }
+  for(var a = 0; a <= width; a = a+100){
+    plinko.push(new Plinko(a,200,15,15));
+  }
+  for(var a = 0; a <= width; a = a+100){
+    plinko.push(new Plinko(a,300,15,15));
+  }
+  for(var a = 0; a <= width; a = a+100){
+    plinko.push(new Plinko(a,400,15,15));
+  }
 
-    for (var j = 75; j <=width; j=j+50) 
-    {
-    
-       plinkos.push(new Plinko(j,75));
-    }
-
-    for (var j = 50; j <=width-10; j=j+50) 
-    {
-    
-       plinkos.push(new Plinko(j,175));
-    }
-
-     for (var j = 75; j <=width; j=j+50) 
-    {
-    
-       plinkos.push(new Plinko(j,275));
-    }
-
-     for (var j = 50; j <=width-10; j=j+50) 
-    {
-    
-       plinkos.push(new Plinko(j,375));
-    }
+  //var render = Matter.Render.create({element:document.body,engine:engine,options:{width:600,height:800}})
+ //Matter.Render.run(render);
 }
- 
+
 function draw() {
   Engine.update(engine);
-  background("black");
-  textSize(20)
-  text("Score : "+score,20,30);
+  background(0);
+
   
- for (var i = 0; i < plinkos.length; i++) {
-     
-     plinkos[i].display();
-     
+  /*for(var b = 0; b <= width; b = b+25){
+    particle.push(new Particle(b,0,10,10));
+  }*/
+
+  if(frameCount % 60 === 0){
+    var rand = Math.round(random(20,700));
+    particle.push(new Particle(rand,0,10,10));
    }
-   if(frameCount%60===0){
-     particles.push(new Particle(random(width/2-30, width/2+30), 10,10));
-     score++;
-   }
+
+for(i = 0; i<division.length; i++){
+    division[i].display();
+  }
+  for(i = 0; i<plinko.length; i++){
+    plinko[i].display();
+  }
+  for(i = 0; i<plinko.length; i++){
+    plinko[i].display();
+  }
+  for(i = 0; i<plinko.length; i++){
+    plinko[i].display();
+  }
+  for(i = 0; i<plinko.length; i++){
+    plinko[i].display();
+  }
+  for(i = 0; i<particle.length; i++){
+    particle[i].display();
+  }
+  ground.display();
  
-  for (var j = 0; j < particles.length; j++) {
-   
-     particles[j].display();
-   }
-   for (var k = 0; k < divisions.length; k++) {
-     
-     divisions[k].display();
-   }
+  drawSprites();
 }
